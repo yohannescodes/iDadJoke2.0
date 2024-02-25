@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22225" systemVersion="23B81" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="DadJoke" representedClassName="DadJoke" syncable="YES">
+        <attribute name="punchline" optional="YES" attributeType="String"/>
+        <attribute name="setup" optional="YES" attributeType="String"/>
+    </entity>
+</model>
