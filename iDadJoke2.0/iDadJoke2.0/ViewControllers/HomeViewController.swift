@@ -21,7 +21,7 @@ class HomeViewController: UIViewController {
         textView.layer.borderWidth = 0.3
         textView.layer.cornerRadius = 5
         textView.font = .systemFont(ofSize: 15, weight: .medium)
-        textView.textAlignment = .center
+        textView.textAlignment = .justified
         textView.textColor = .black
         textView.isEditable = false
         return textView
@@ -34,7 +34,7 @@ class HomeViewController: UIViewController {
         textView.layer.borderWidth = 0.3
         textView.layer.cornerRadius = 5
         textView.font = .systemFont(ofSize: 15, weight: .regular)
-        textView.textAlignment = .center
+        textView.textAlignment = .justified
         textView.textColor = .black
         textView.isEditable = false
         return textView
@@ -54,7 +54,7 @@ class HomeViewController: UIViewController {
     public let saveBtn: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "heart"), for: .normal)
-        button.tintColor = UIColor(named: "AccentColor")
+        button.tintColor = .gray
         button.layer.cornerRadius = 20
         button.layer.borderWidth = 0.3
         button.layer.borderColor = UIColor.black.cgColor
@@ -79,6 +79,7 @@ class HomeViewController: UIViewController {
         view.addSubview(punchLineTextView)
         funBtn.addTarget(self, action: #selector(didTapYep), for: .touchUpInside)
         view.addSubview(funBtn)
+        saveBtn.isEnabled = false
         saveBtn.addTarget(self, action: #selector(didTapSave), for: .touchUpInside)
         view.addSubview(saveBtn)
     }
@@ -138,15 +139,17 @@ class HomeViewController: UIViewController {
                     self.saveBtn.isEnabled = true
                     self.saveBtn.setImage(UIImage(systemName: "heart"), for: .normal)
                     self.funBtn.isEnabled = true
+                    self.saveBtn.isEnabled = true
+                    self.saveBtn.tintColor = UIColor(named: "AccentColor")
                     self.funBtn.setTitle("\"Another One\"", for: .normal)
                 }
             case .failure(let error):
                 if(error == .responseProblem){
                     DispatchQueue.main.async {
                         let alert = UIAlertController(title: "Whoops", message: "It seems like you are not connected to the internet. Please try again!", preferredStyle: .alert)
-                        let tryAgain = UIAlertAction(title: "Try Again", style: .default) { _ in
+                        let tryAgain = UIAlertAction(title: "Laugh Offline", style: .default) { _ in
                             alert.resignFirstResponder()
-                            self.fetchDadJoke()
+                            self.goOffline()
                         }
                         alert.addAction(tryAgain)
                         self.present(alert, animated: true)
@@ -188,6 +191,11 @@ class HomeViewController: UIViewController {
             }
 
         }
+    }
+    
+    private func goOffline(){
+        let savedViewController = SavedViewController()
+        self.navigationController?.pushViewController(savedViewController, animated: true)
     }
     
     @objc private func didTapYep(){

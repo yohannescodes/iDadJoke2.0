@@ -17,8 +17,8 @@ class Networking{
     
     let baseURL = "https://dad-jokes.p.rapidapi.com/random/joke"
     let headers = [
-        "X-RapidAPI-Key": "",
-        "X-RapidAPI-Host": ""
+        "X-RapidAPI-Key": "X-RapidAPI-Key",
+        "X-RapidAPI-Host": "X-RapidAPIHost"
     ]
     
     func getDadJoke(completion: @escaping(Result<DadJokeResponse, APIError>)-> Void){
