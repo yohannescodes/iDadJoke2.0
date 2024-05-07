@@ -18,7 +18,6 @@ class SavedViewController: UIViewController {
         return table
     }()
     
-    
     override func viewWillAppear(_ animated: Bool) {
         self.fetchJokes()
     }
@@ -35,8 +34,20 @@ class SavedViewController: UIViewController {
     private func fetchJokes(){
         do{
             self.jokes = try context.fetch(DadJoke.fetchRequest())
+            self.jokes?.reverse()
             DispatchQueue.main.async{
-                self.tableView.reloadData()
+                if self.jokes?.isEmpty ?? true{
+                    let alert = UIAlertController(title: "Whoops", message: "It seems like you have never saved a joke since birth. Try to tame a few next time you're online!", preferredStyle: .alert)
+                    let myBad = UIAlertAction(title: "My Bad", style: .default) { _ in
+                        alert.resignFirstResponder()
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                    alert.addAction(myBad)
+                    self.present(alert, animated: true)
+                    
+                }else{
+                    self.tableView.reloadData()
+                }
             }
         }catch{
             DispatchQueue.main.async {
@@ -58,6 +69,7 @@ class SavedViewController: UIViewController {
         savedJokeVC.savedJokePunchline = jokes?[index].punchline ?? "Are you ready for your daily dose of dad jokes?"
         savedJokeVC.funBtn.setTitle("Another One", for: .normal)
         savedJokeVC.saveBtn.isEnabled = false
+        savedJokeVC.saveBtn.tintColor = .gray
         savedJokeVC.saveBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         navigationController?.pushViewController(savedJokeVC, animated: true)
     }
